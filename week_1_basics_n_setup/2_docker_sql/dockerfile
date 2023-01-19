@@ -1,0 +1,10 @@
+FROM python:3.9
+
+RUN apt-install wget
+RUN pip install pandas sqlalchemy psycogp2
+
+WORKDIR /app
+COPY ingest-data.py ingest-data.py
+
+# ENTRYPOINT ["bash"]
+ ENTRYPOINT ["python", "ingest-data.py"]
