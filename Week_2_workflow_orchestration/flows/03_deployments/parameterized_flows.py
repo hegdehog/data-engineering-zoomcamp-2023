@@ -10,7 +10,7 @@ from prefect_gcp import GcpCredentials
 ##########################################################
 ######## etl_web_to_gcs ########
 ##########################################################
-@task(retries=3, cache_key_fn=task_input_hash, cache_expiration=timedelta(days=1))
+@task(retries=3)
 def ingest_data(dataset_url):
     df = pd.read_csv(dataset_url)
 
@@ -25,24 +25,22 @@ def transform_data(df):
 
 @task(log_prints=True)
 def export_data_local(df, color, dataset_file):
-    path = Path(f"../../data/{color}/{dataset_file}.parquet")
+    path = Path(f"data/{color}/{dataset_file}.parquet")
     df.to_parquet(path, compression="gzip")
     return path
 
 
 @task(log_prints=True)
 def export_data_gcs(path):
-    gcs_block = GcsBucket.load("zoom-gcs")
-    gcs_block.upload_from_path(from_path=path, to_path=path)
-    
-    return path
+        gcs_block = GcsBucket.load("zoom-gcs")
+        gcs_block.upload_from_path(from_path=path, to_path=path)
+  
 
 
 @flow()
 def etl_web_to_gcs(year, month, color):
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
-    print (dataset_file)
-    dataset_url  = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
+    dataset_url = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 
     df = ingest_data(dataset_url)
     df_clean = transform_data(df)
@@ -59,9 +57,9 @@ def extract_from_gcs(color, year, month) -> Path:
     """Data Extract from Google Cloud Storage"""
     gcs_path = f"{color}/{color}_tripdata_{year}-{month:02}.parquet"
     gcs_block = GcsBucket.load("zoom-gcs")
-    gcs_block.get_directory(from_path=gcs_path, local_path=f"../../data/")
+    gcs_block.get_directory(from_path=gcs_path, local_path=f"data/")
     print(gcs_path)
-    return Path(f"../../data/{gcs_path}")
+    return Path(f"data/{gcs_path}")
 
 @task()
 def transform(path) -> pd.DataFrame:
