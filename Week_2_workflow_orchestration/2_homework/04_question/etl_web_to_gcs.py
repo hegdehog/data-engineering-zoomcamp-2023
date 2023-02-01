@@ -12,15 +12,16 @@ def ingest_data(dataset_url):
 
 @task(log_prints=True)
 def transform_data(df):
-    df['tpep_pickup_datetime']  = pd.to_datetime(df['tpep_pickup_datetime'])
-    df['tpep_dropoff_datetime'] = pd.to_datetime(df['tpep_dropoff_datetime'])
+    # df['tpep_pickup_datetime']  = pd.to_datetime(df['tpep_pickup_datetime'])
+    # df['tpep_dropoff_datetime'] = pd.to_datetime(df['tpep_dropoff_datetime'])
 
     return df
 
 @task()
 def export_data_local(df, color, dataset_file):
-    path = Path(f"../../data/{color}/{dataset_file}.parquet")
+    path = Path(f"data/{color}/{dataset_file}.parquet")
     df.to_parquet(path, compression="gzip")
+    print(df.shape[0])
     return path
 
 
@@ -38,7 +39,6 @@ def etl_web_to_gcs():
     year  = 2020
     month = 11
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
-    print (dataset_file)
     dataset_url  = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 
     df = ingest_data(dataset_url)

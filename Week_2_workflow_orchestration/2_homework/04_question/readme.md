@@ -1,0 +1,1 @@
+prefect deployment build ./week_2_workflow_orchestration/2_homework/04_question/etl_web_to_gcs.py:etl_web_to_gcs --name github_deployment -sb github/zoomgithub -aza
