@@ -1,6 +1,7 @@
 # Exercises
 ## Question 1. Load January 2020 data
 1. Copy flow ``flow etl_web_to_gcs.py`` and modify params on ``__main__``:
+
         if __name__ == "__main__":
                 color="green"
                 month=[1]
