@@ -2,7 +2,7 @@ from pathlib import Path
 import pandas as pd
 from prefect import flow, task
 from prefect_gcp.cloud_storage import GcsBucket
-
+import os
 
 @task(retries=3)
 def ingest_data(dataset_url):
@@ -19,6 +19,10 @@ def transform_data(df):
 
 @task()
 def export_data_local(df, color, dataset_file):
+    newpath = 'data/green/' 
+    if not os.path.exists(newpath):
+        os.makedirs(newpath)
+
     path = Path(f"data/{color}/{dataset_file}.parquet")
     df.to_parquet(path, compression="gzip")
     print(df.shape[0])
