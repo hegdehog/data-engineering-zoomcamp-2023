@@ -1,3 +1,43 @@
+# Exercises
+## Question 1. Load January 2020 data
+1. Copy flow ``flow etl_web_to_gcs.py`` and modify params on ``__main__``:
+        if __name__ == "__main__":
+                color="green"
+                month=[1]
+                year=2020
+                etl_web_to_gcs(year, color, month)
+
+## Question 2. Scheduling with Cron
+We can do it using the Prefect GUI or building the deployment yaml file and then adding cron schedule rule: ``0 5 1 * *``
+
+        schedule: 
+        cron: 0 5 1 * *
+        timezone: Europe/Madrid
+
+## Question 3. Loading data to BigQuery
+1. Load into GCS Yellow taxi data for Feb. 2019 and March 2019. I have copied the ``flow etl_web_to_gcs.py`` and added a parent flow to process both months.
+
+        @flow()
+        def etl_parent_flow(color: str = "yellow", months: list[int] = [1,2], year: int = 2021):
+        for month in months:
+                etl_web_to_gcs(year, month, color)
+        
+
+        if __name__ == "__main__":
+        color="yellow"
+        months=[2,3]
+        year=2019
+        etl_parent_flow(color, months, year)
+
+2. Build the deployment:
+
+        prefect deployment build etl_gcs_to_bq.py:etl_parent_flow --name zoomcamp-week2-question3
+
+3. Run the deployment:
+
+        prefect deployment run etl_gcs_to_bq/zoomcamp-week2-question3   
+        
+
 ## Question 4. Github Storage Block 
 Using the CLI:
 
