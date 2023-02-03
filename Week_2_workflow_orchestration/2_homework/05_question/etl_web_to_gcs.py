@@ -1,7 +1,7 @@
 from pathlib import Path
 import pandas as pd
 from prefect import flow, task
-from prefect_gcp.cloud_storage import GcsBucket
+from prefect.filesystems import GCS
 import os
 
 @task(retries=3)
@@ -31,7 +31,7 @@ def export_data_local(df, color, dataset_file):
 
 @task(log_prints=True)
 def export_data_gcs(path):
-    gcs_block = GcsBucket.load("zoom-gcs")
+    gcs_block = GCS.load("zoom-gcs")
     gcs_block.upload_from_path(from_path=path, to_path=path)
     
     return path
