@@ -85,5 +85,20 @@ Other way to get it is creating the deployment by code instead using the CLI:
 
 3. Run deployment
 
-        prefect deployment run etl-web-to-gcs/github_deployment   
+        prefect deployment run etl-web-to-gcs/github-exercise
 
+
+## Question 5. Email or Slack notifications
+1. Create an account on app.prefect.cloud
+
+2. Create a workspace on Prefect Server
+
+3. Replicate on prefect Server the blocks which we've used before (github and GCS with credentials).
+
+4. Create an API Key from ``profile settings``
+
+5. From your computer, run the following command (where XXXX is your API Key): 
+
+        prefect cloud login -k XXXXXXXXXX
+
+6. Run ``github_deployment.py`` to create the deployment on Prefect Server
