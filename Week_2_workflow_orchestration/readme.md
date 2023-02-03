@@ -93,7 +93,22 @@ Other way to get it is creating the deployment by code instead using the CLI:
 
 2. Create a workspace on Prefect Server
 
-3. Replicate on prefect Server the blocks which we've used before (github and GCS with credentials).
+3. Replicate on Prefect Server the blocks which we've used before: Github and GCS Credentials. On Prefect Cloud doesn't exist ``GCS Bucket``, we have to create it manually with ``gcp_bucket_block.py``:
+
+        from prefect_gcp import GcpCredentials
+        from prefect_gcp.cloud_storage import GcsBucket
+
+
+        bucket_block = GcsBucket(
+        gcp_credentials=GcpCredentials.load("zoom-gcp-creds"),
+        bucket="dtc_data_lake_digital-aloe-375022",
+        )
+
+        bucket_block.save("zoom-gcs", overwrite=True)
+
+Run the script:
+
+        python gcp_bucket_block.py
 
 4. Create an API Key from ``profile settings``
 
@@ -102,3 +117,9 @@ Other way to get it is creating the deployment by code instead using the CLI:
         prefect cloud login -k XXXXXXXXXX
 
 6. Run ``github_deployment.py`` to create the deployment on Prefect Server
+
+        python github_deployment.py
+
+7. Run deployment:
+
+        prefect deployment run etl-web-to-gcs/github-exercise
