@@ -32,16 +32,17 @@ def export_data_local(df, color, dataset_file):
 @task(log_prints=True)
 def export_data_gcs(path):
     gcs_block = GCS.load("zoom-gcs")
-    gcs_block.upload_from_path(from_path=path, to_path=path)
-    
+    # gcs_block.upload_from_path(from_path=path, to_path=path)
+    gcp_credentials = GcpCredentials(service_account_info=json.dumps(gcs_block.service_account_info.get_secret_value()))
+    blob = cloud_storage_upload_blob_from_file(test_upload_file, gcs_block.bucket_path, "test_upload.txt", gcp_credentials)
     return path
 
 
 @flow()
 def etl_web_to_gcs():
     color = "green"
-    year  = 2020
-    month = 11
+    year  = 2019
+    month = 4
     dataset_file = f"{color}_tripdata_{year}-{month:02}"
     dataset_url  = f"https://github.com/DataTalksClub/nyc-tlc-data/releases/download/{color}/{dataset_file}.csv.gz"
 
