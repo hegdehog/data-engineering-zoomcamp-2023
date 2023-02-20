@@ -123,4 +123,7 @@ Once we have in BigQuery a fhv table with data from 2019 we have to create the `
     ```
     
     ![image](https://user-images.githubusercontent.com/19264618/220082839-4911040f-a7b5-4153-8d42-8aa24b0844c2.png)
+    
+    ![image](https://user-images.githubusercontent.com/19264618/220108616-472d3524-6a2d-42fb-85d0-eae7afdba0a3.png)
+
 
