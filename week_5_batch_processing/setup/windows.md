@@ -19,7 +19,7 @@ Unpack it to a folder with no space in the path. We use `C:/tools` - so the full
 Now let’s configure it and add it to `PATH`:
 
 ```bash
-export JAVA_HOME="/c/tools/jdk-11.0.13"
+export JAVA_HOME="/C/Program Files/Java/jdk-11.0.17"
 export PATH="${JAVA_HOME}/bin:${PATH}"
 ```
 
@@ -112,6 +112,7 @@ WARNING: Use --illegal-access=warn to enable warnings of further illegal reflect
 WARNING: All illegal access operations will be denied in a future release
 ```
 
+
 You can safely ignore them.
 
 Now let's run this:
@@ -125,3 +126,6 @@ distData.filter(_ < 10).collect()
 ### PySpark
 
 It's the same for all platforms. Go to [pyspark.md](pyspark.md). 
+
+
+java -cp 'C:\tools\spark-3.3.2-bin-hadoop3\jars\*' '-Dscala.usejavacp=true' -Xmx1g org.apache.spark.deploy.SparkSubmit --class org.apache.spark.repl.Main --name 'Spark shell' spark-shell
