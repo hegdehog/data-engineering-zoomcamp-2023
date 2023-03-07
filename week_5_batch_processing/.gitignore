@@ -4,3 +4,4 @@ code/tmp
 code/*.csv
 *.parquet
 *.csv
+*.crc
