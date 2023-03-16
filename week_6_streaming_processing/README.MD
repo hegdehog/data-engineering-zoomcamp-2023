@@ -1,12 +1,14 @@
 # Exercise
 Please implement a streaming application, for finding out popularity of PUlocationID across green and fhv trip datasets.
-Please use the datasets fhv_tripdata_2019-01.csv.gz
-and green_tripdata_2019-01.csv.gz
+Please use the datasets `fhv_tripdata_2019-01.csv.gz` and `green_tripdata_2019-01.csv.gz`
 
-Firstly we have to create the producer and consumer scripts for both sources. We clone the scripts, change the schemas and run them:
+Firstly we have to create the producer and consumer scripts for both sources. We clone the scripts, change the schemas and run them (producers and consumers):
+
+![image](https://user-images.githubusercontent.com/19264618/225774596-94431f86-0dea-4aa4-ace7-43e3761d471d.png)
 
 
-1. Create the abbreviate schemas for both files (we only need the PULocationID, so we get this field from the stream and a few more for checking):
+
+1. Create the abbreviate schemas for both files (we only need the `PULocationID`, so we get this field from the stream and a few more for checking):
 
 ```python
 fhv_schema = T.StructType(
@@ -75,6 +77,9 @@ green_schema = T.StructType(
 
 ```python
         from pyspark.sql.functions import col
+        
+        df_total = df_popular_pulocation_fhv.union(df_popular_pulocation_green)
+        
         df_total.groupBy('PUlocationID') \
             .count() \
             .sort(col("count").desc()) \
