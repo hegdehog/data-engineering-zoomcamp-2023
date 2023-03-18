@@ -1,3 +1,4 @@
 *.csv.gz
 week_6_streaming_processing/Exercise/resources/*
 week_6_streaming_processing/Exercise/__pycache__
+checkpoint

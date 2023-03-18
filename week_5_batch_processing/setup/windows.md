@@ -82,7 +82,7 @@ Let's also add it to `PATH`:
 
 ```bash
 export SPARK_HOME="/c/tools/spark-3.3.2-bin-hadoop3"
-export PATH="${SPARK_HOME}/bin:${PATH}"
+export PATH="${SPARK_HOME}/bin:${PATH}" 
 ```
 
 ### Testing it
